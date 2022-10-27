@@ -1,6 +1,8 @@
 package Hashtable_Directory;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -130,17 +132,22 @@ public class MyFrame extends JFrame {
                 String c1 = name.getText();
                 String c2 = tel.getText();
                 switch (ht.Put(c1,c2)){
-                    case -1:
-                        JOptionPane.showMessageDialog(MyFrame.this,"修改成功","录入电话号码",JOptionPane.INFORMATION_MESSAGE);
-                        break;
                     case 0:
                         JOptionPane.showMessageDialog(MyFrame.this,"新增成功","录入电话号码",JOptionPane.INFORMATION_MESSAGE);
+                        name.setText("");
+                        tel.setText("");
                         break;
                     case 1:
                         JOptionPane.showMessageDialog(MyFrame.this,"录入失败，哈希表已满","录入电话号码",JOptionPane.WARNING_MESSAGE);
                         break;
                     case 2:
-                        JOptionPane.showMessageDialog(MyFrame.this,"录入失败，哈希表已存入相同元素","录入电话号码",JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(MyFrame.this,"录入失败，哈希表已存入相同姓名的元素","录入电话号码",JOptionPane.WARNING_MESSAGE);
+                        break;
+                    case 3:
+                        JOptionPane.showMessageDialog(MyFrame.this,"录入失败，哈希表已存入相同电话号码的元素","录入电话号码",JOptionPane.WARNING_MESSAGE);
+                        break;
+                    case 4:
+                        JOptionPane.showMessageDialog(MyFrame.this,"两个哈希表不同步","录入电话号码",JOptionPane.WARNING_MESSAGE);
                         break;
                 }
 
@@ -152,7 +159,7 @@ public class MyFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String c1 = key1.getText();
-                String c2 = ht.Search(c1);
+                String c2 = ht.name_Search(c1);
                 value1.setText(c2);
 
 //                System.out.println(c1);
@@ -162,10 +169,24 @@ public class MyFrame extends JFrame {
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String c1 = key1.getText();
-
+                String c1 = key2.getText();
+                String c2 = ht.tel_Search(c1);
+                value2.setText(c2);
             }
         });
+
+        //当切换选项卡时 用户应该已经完成对于当前选项卡功能的使用 则自动将文本框内容清空 方便下次使用
+        tabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                name.setText("");
+                tel.setText("");
+                key1.setText("");
+                key2.setText("");
+            }
+        });
+
+
     }
 
 }
