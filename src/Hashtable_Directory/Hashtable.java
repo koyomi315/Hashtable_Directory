@@ -173,5 +173,62 @@ public class Hashtable {
         return false;
     }
 
+    public void name_Change(String name,String new_tel){
+        int index,pos;
+        String old_tel = "";
+        pos = index = HashFunc(name);
+        do {
+            if(name_keys[pos].equals(name)){
+                old_tel = name_values[pos];
+                name_values[pos] = new_tel;
+                break;
+            }
+            pos = (pos + 1) % this.length;
+        }while(pos != index);
+       tel_Delete(old_tel);
+       tel_Put(new_tel,name);
+    }
 
+    public void tel_Change(String tel,String new_name){
+        int index,pos;
+        String old_name = "";
+        pos = index = HashFunc(tel);
+        do {
+            if(tel_keys[pos].equals(tel)){
+                old_name = tel_values[pos];
+                tel_values[pos] = new_name;
+                break;
+            }
+            pos = (pos + 1) % this.length;
+        }while(pos != index);
+        name_Delete(old_name);
+        name_Put(new_name,tel);
+    }
+
+    private void name_Delete(String name){
+        int pos,index;
+        pos = index = HashFunc(name);
+        do {
+            if(name_keys[pos].equals(name)){
+                name_keys[pos] = null;
+                name_values[pos] = null;
+                return;
+            }
+            pos = (pos + 1) % this.length;
+        }while(pos != index);
+    }
+
+    private void tel_Delete(String tel){
+        int pos,index;
+        pos = index = HashFunc(tel);
+        do {
+            if(tel_keys[pos].equals(tel)){
+                tel_keys[pos] = null;
+                tel_values[pos] = null;
+                return;
+            }
+            pos = (pos + 1) % this.length;
+        }while(pos != index);
+    }
 }
+
