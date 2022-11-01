@@ -5,12 +5,13 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 public class LimitedTextField extends PlainDocument {
-    private int limit;  //限制的长度
+    private final int limit;  //限制的长度
 
     public LimitedTextField() {
-        super(); //调用父类构造
+        super();    //调用父类构造函数
         this.limit = 15;
     }
+
     public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
         if(str == null) return;
         if((getLength() + str.length()) <= limit) {
